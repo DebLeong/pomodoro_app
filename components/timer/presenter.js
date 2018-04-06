@@ -11,19 +11,18 @@ function formatTime(time){
 }
 
 class Timer extends Component {
-    componentDidMount() {
-        (async () => {
-            try {
-                await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
-                await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
-            }   catch (error) {
-                console.log(error);
-            }
-        })();
-    }
+    _loadMusic = async () => {
+        try {
+            await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
+            await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
+        }   catch (error) {
+            console.log(error);
+        }
+    };
 
     componentWillReceiveProps(nextProps){
         const currentProps = this.props;
+        this._loadMusic();
         if (!currentProps.isPlaying && nextProps.isPlaying) {
             const timerInterval = setInterval(() => {
                 currentProps.addSecond()
