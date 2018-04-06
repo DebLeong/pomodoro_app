@@ -11,18 +11,12 @@ function formatTime(time){
 }
 
 class Timer extends Component {
-    _loadMusic = async () => {
-        try {
-            await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
-            await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
-        }   catch (error) {
-            console.log(error);
-        }
-    };
+    componentDidMount(){
+        this._loadMusic();
+    }
 
     componentWillReceiveProps(nextProps){
         const currentProps = this.props;
-        this._loadMusic();
         if (!currentProps.isPlaying && nextProps.isPlaying) {
             const timerInterval = setInterval(() => {
                 currentProps.addSecond()
@@ -31,11 +25,20 @@ class Timer extends Component {
                 timerInterval,
             })
             {this.props.music.playAsync()};
+            {this.props.recording.stopAsync()};
         } else if (currentProps.isPlaying && !nextProps.isPlaying) {
             clearInterval(this.state.timerInterval);
             {this.props.music.stopAsync()};
-            {this.props.music.unloadAsync()};
             {this.props.recording.playAsync()};
+        }
+    }
+
+    _loadMusic = async () => {
+        try {
+            await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
+            await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
+        } catch (error) {
+            console.log(error);
         }
     }
 
