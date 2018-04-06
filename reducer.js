@@ -1,4 +1,5 @@
 // Import
+import Audio from 'expo';
 
 // Actions
 
@@ -29,11 +30,15 @@ function addSecond(){
 // Reducer
 
 const TIMER_DURATION = 1500;
+const MUSIC = new Expo.Audio.Sound();
+const RECORDING = new Expo.Audio.Sound();
 
 const initialState = {
     isPlaying: false,
     elapsedTime: 0,
     timerDuration: TIMER_DURATION,
+    music: MUSIC,
+    recording: RECORDING,
 };
 
 function reducer(state = initialState, action){
@@ -71,6 +76,12 @@ function applyAddSecond(state){
         return {
             ...state,
             elapsedTime: state.elapsedTime + 1
+        };
+    } else if (state.elapsedTime == TIMER_DURATION) {
+        return {
+            ...state,
+            elapsedTime: 0,
+            isPlaying: false,
         };
     } else {
         return {

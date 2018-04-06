@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar} from 'react-native';
+import { View, Text, StyleSheet, StatusBar, AsyncStorage } from 'react-native';
 import Button from '../button';
+import Audio from 'expo';
 
 function formatTime(time){
     let minutes = Math.floor(time/60);
@@ -10,6 +11,17 @@ function formatTime(time){
 }
 
 class Timer extends Component {
+    componentDidMount() {
+        (async () => {
+            try {
+                await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
+                await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
+            }   catch (error) {
+                console.log(error);
+            }
+        })();
+    }
+
     componentWillReceiveProps(nextProps){
         const currentProps = this.props;
         if (!currentProps.isPlaying && nextProps.isPlaying) {
@@ -17,10 +29,14 @@ class Timer extends Component {
                 currentProps.addSecond()
             }, 1000);
             this.setState({
-                timerInterval
+                timerInterval,
             })
+            {this.props.music.playAsync()};
         } else if (currentProps.isPlaying && !nextProps.isPlaying) {
             clearInterval(this.state.timerInterval);
+            {this.props.music.stopAsync()};
+            {this.props.music.unloadAsync()};
+            {this.props.recording.playAsync()};
         }
     }
 

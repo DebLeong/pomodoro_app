@@ -4,11 +4,19 @@ import { actionCreators as pomoActions } from '../../reducer';
 import Timer from './presenter';
 
 function mapStateToProps(state) {
-    const { isPlaying, elapsedTime, timerDuration } = state;
+    const {
+        isPlaying,
+        elapsedTime,
+        timerDuration,
+        music,
+        recording
+    } = state;
     return {
         isPlaying,
         elapsedTime,
         timerDuration,
+        music,
+        recording,
     };
 }
 
