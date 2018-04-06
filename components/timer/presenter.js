@@ -30,7 +30,6 @@ class Timer extends Component {
             clearInterval(this.state.timerInterval);
             {this.props.music.stopAsync()};
             {this.props.recording.playAsync()};
-            {this._loadMusic()};
         }
     }
 
@@ -38,7 +37,6 @@ class Timer extends Component {
         try {
             await this.props.music.loadAsync(require('../../assets/workmusic.mp3'));
             await this.props.recording.loadAsync(require('../../assets/takeabreak.m4a'));
-            console.log('music loaded');
         } catch (error) {
             console.log(error);
         }
