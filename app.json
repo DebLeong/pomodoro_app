@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "pomodoro_app",
-    "description": "This project is really great.",
+    "description": "A pomodoro clock app built with React Native and Redux.",
     "slug": "pomodoro_app",
     "privacy": "public",
     "sdkVersion": "26.0.0",
